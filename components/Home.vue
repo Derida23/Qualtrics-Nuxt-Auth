@@ -2,8 +2,13 @@
   <div class="home d-flex justify-center align-center">
     <div>
       <QuitLogo />
-      <v-row align="center" justify="center" class="mt-10">
-        <v-btn elevation="2" class="ma-2 white--text" color="#1890FF" large
+      <v-row align="center" justify="center" class="mt-16">
+        <v-btn
+          elevation="2"
+          class="ma-2 white--text"
+          color="#1890FF"
+          large
+          @click="$router.push('/auth/register')"
           >Register <v-icon>mdi-account</v-icon>
         </v-btn>
 
@@ -28,6 +33,6 @@ export default {
 
 <style lang="scss">
 .home {
-  min-height: 80vh;
+  min-height: 95vh;
 }
 </style>

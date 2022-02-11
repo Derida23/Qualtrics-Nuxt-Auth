@@ -31,8 +31,3 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.v-btn {
-  border-radius: 28px !important;
-}
-</style>

@@ -1,16 +1,28 @@
 <template>
-  <div class="quit-logo d-flex align-center justify-center">
-    <img src="/assets/qualtrics-logo.png" alt="logo" />
+  <div class="d-flex align-center justify-center">
+    <img
+      src="/assets/qualtrics-logo.png"
+      class="quit-logo"
+      alt="logo"
+      :style="cssVars"
+      @click="$router.push('/')"
+    />
   </div>
 </template>
 
 <script>
 export default {
   name: 'QuitLogo',
-  // props: {
-  //   value: { type: String, default: '' },
-  //   user: { type: Function, default: () => {}, require: true },
-  // },
+  props: {
+    height: { type: String, default: '140px' },
+  },
+  computed: {
+    cssVars() {
+      return {
+        '--height': this.height,
+      }
+    },
+  },
   // data() {
   //   return {
   //     count: 0,
@@ -25,10 +37,9 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .quit-logo {
-  img {
-    height: 140px;
-  }
+  height: var(--height);
+  cursor: pointer;
 }
 </style>

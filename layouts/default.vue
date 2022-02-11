@@ -5,10 +5,6 @@
         <Nuxt />
       </v-container>
     </v-main>
-
-    <v-footer :absolute="!fixed" app>
-      <span>&copy; {{ new Date().getFullYear() }}</span>
-    </v-footer>
   </v-app>
 </template>
 
@@ -33,5 +29,23 @@ export default {
       title: 'Vuetify.js',
     }
   },
+  head() {
+    return {
+      title: 'Qualtrics Personal Profile System | Nuxt JS',
+    }
+  },
 }
 </script>
+
+
+<style lang="scss">
+main {
+  background-color: #e6e9f1;
+}
+.v-btn {
+  border-radius: 28px !important;
+}
+.v-text-field--outlined fieldset {
+  border-radius: 10px;
+}
+</style>
