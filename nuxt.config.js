@@ -3,8 +3,8 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - qualtrics',
-    title: 'qualtrics',
+    titleTemplate: '',
+    title: 'Qualtrics Personal Profile System | Nuxt JS',
     htmlAttrs: {
       lang: 'en',
     },
@@ -21,7 +21,10 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [
+    { src: '@/plugins/axios' },
+    { src: '@/plugins/main', mode: 'client' },
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,

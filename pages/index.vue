@@ -12,11 +12,6 @@ export default {
   components: {
     HomePage,
   },
-  head() {
-    return {
-      title: 'Qualtrics Personal Profile System | Nuxt JS',
-    }
-  },
   // data() {
   //   return {
   //     propsValue: 'testing',

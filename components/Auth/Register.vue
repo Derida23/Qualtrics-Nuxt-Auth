@@ -9,23 +9,44 @@
     <div>
       <v-text-field
         label="Phone"
+        :value="form.phone"
         placeholder="Phone number (+62)"
+        phone
         solo
         required
         prepend-inner-icon="mdi-cellphone"
+        @input="$emit('change', { name: 'phone', value: $event })"
       />
     </div>
     <div>
       <v-text-field
+        v-model="password"
         label="Password"
         placeholder="Secret Password"
-        solo
         required
         prepend-inner-icon="mdi-key"
-        append-icon="mdi-eye"
+        :value="form.password"
+        :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+        :type="show ? 'text' : 'password'"
+        @click:append="show = !show"
+        @input="$emit('change', { name: 'password', value: $event })"
       />
     </div>
-    <div><v-select :items="items" label="Select a country" solo /></div>
+    <div>
+      <v-autocomplete
+        item-text="name"
+        item-value="lat"
+        label="Select a country"
+        solo
+        :items="loading ? [] : locations"
+        :loading="loading"
+      />
+    </div>
+    <div>
+      <v-btn block elevation="2" class="ma-2 white--text" color="#1890FF" large
+        >Register <v-icon>mdi-account</v-icon>
+      </v-btn>
+    </div>
   </div>
 </template>
 
@@ -37,22 +58,15 @@ export default {
   components: {
     QuitLogo,
   },
+  props: {
+    locations: { type: Array, default: () => {} },
+    loading: { type: Boolean, default: () => {} },
+    form: { type: Object, default: () => {} },
+  },
   data() {
-    const items = ['Foo', 'Bar', 'Fazz', 'Fezz']
     return {
-      items,
+      show: false,
     }
-  },
-  mounted() {
-    this.getData()
-  },
-  methods: {
-    async getData() {
-      await this.$axios
-        .get('/api/location')
-        .then((res) => {})
-        .catch((e) => {})
-    },
   },
 }
 </script>
