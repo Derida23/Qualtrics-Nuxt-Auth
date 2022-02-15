@@ -23,7 +23,9 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '@/plugins/axios' },
-    { src: '@/plugins/main', mode: 'client' },
+    { src: '@/plugins/validation' },
+    { src: '@/plugins/notify', ssr: false },
+    { src: '@/plugins/swal', ssr: false },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
