@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import QuitLogo from '@/components/QuitLogo'
+import QuitLogo from '@/components/quit-logo'
 
 export default {
   name: 'HomePage',

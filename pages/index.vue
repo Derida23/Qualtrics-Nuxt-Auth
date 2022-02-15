@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import HomePage from '@/components/Home'
+import HomePage from '@/components/home'
 
 export default {
   name: 'IndexPage',

@@ -6,52 +6,62 @@
     <div>
       <p class="text-register">Register</p>
     </div>
-    <div>
-      <v-text-field
-        label="Phone"
-        :value="form.phone"
-        placeholder="Phone number (+62)"
-        phone
-        solo
-        required
-        prepend-inner-icon="mdi-cellphone"
-        @input="$emit('change', { name: 'phone', value: $event })"
-      />
-    </div>
-    <div>
-      <v-text-field
-        v-model="password"
-        label="Password"
-        placeholder="Secret Password"
-        required
-        prepend-inner-icon="mdi-key"
-        :value="form.password"
-        :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-        :type="show ? 'text' : 'password'"
-        @click:append="show = !show"
-        @input="$emit('change', { name: 'password', value: $event })"
-      />
-    </div>
-    <div>
-      <v-autocomplete
-        item-text="name"
-        item-value="lat"
-        label="Select a country"
-        solo
-        :items="loading ? [] : locations"
-        :loading="loading"
-      />
-    </div>
-    <div>
-      <v-btn block elevation="2" class="ma-2 white--text" color="#1890FF" large
-        >Register <v-icon>mdi-account</v-icon>
-      </v-btn>
-    </div>
+    <v-form @submit.prevent="handleSave">
+      <div>
+        <v-text-field
+          label="Phone"
+          :value="form.phone"
+          placeholder="Phone number (+62)"
+          phone
+          solo
+          required
+          prepend-inner-icon="mdi-cellphone"
+          @input="$emit('change', { name: 'phone', value: $event })"
+        />
+      </div>
+      <div>
+        <v-text-field
+          label="Password"
+          placeholder="Secret Password"
+          required
+          solo
+          prepend-inner-icon="mdi-key"
+          :value="form.password"
+          :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+          :type="show ? 'text' : 'password'"
+          @click:append="show = !show"
+          @input="$emit('change', { name: 'password', value: $event })"
+        />
+      </div>
+      <div>
+        <v-autocomplete
+          item-text="name"
+          item-value="lat"
+          label="Select a country"
+          solo
+          return-object
+          :items="loading ? [] : locations"
+          :loading="loading"
+          @change="(e) => select(e)"
+        />
+      </div>
+      <div>
+        <v-btn
+          type="submit"
+          block
+          elevation="2"
+          class="ma-2 white--text"
+          color="#1890FF"
+          large
+          >Register <v-icon>mdi-account</v-icon>
+        </v-btn>
+      </div>
+    </v-form>
   </div>
 </template>
 
 <script>
-import QuitLogo from '@/components/QuitLogo'
+import QuitLogo from '@/components/quit-logo'
 
 export default {
   name: 'RegisterComponent',
@@ -62,6 +72,8 @@ export default {
     locations: { type: Array, default: () => {} },
     loading: { type: Boolean, default: () => {} },
     form: { type: Object, default: () => {} },
+    select: { type: Function, default: () => {} },
+    handleSave: { type: Function, default: () => {} },
   },
   data() {
     return {

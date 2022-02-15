@@ -16,7 +16,6 @@ export const mutations = {
 export const plugins = [EasyAccess()]
 
 export const actions = {
-  // Users
   getLocations({ dispatch }) {
     dispatch('set/loading', true)
 
@@ -25,7 +24,7 @@ export const actions = {
       .then((res) => {
         dispatch('set/loading', false)
         dispatch('set/status', 'success')
-        dispatch('set/locations', res.data.data)
+        dispatch('set/locations', res?.data?.data ?? [])
       })
       .catch((err) => {
         dispatch('set/loading', false)

@@ -3,12 +3,14 @@
     :locations="locations"
     :loading="loading"
     :form="form"
+    :select="select"
+    :handle-save="handleSave"
     @change="change"
   />
 </template>
 
 <script>
-import RegisterComponent from '@/components/Auth/Register'
+import RegisterComponent from '@/components/auth/register'
 
 export default {
   name: 'RegisterPage',
@@ -46,12 +48,21 @@ export default {
     this.getLocations()
   },
   methods: {
-    getLocations() {
-      this.$store.dispatch('location/getLocations')
+    async getLocations() {
+      await this.$store.dispatch('location/getLocations')
     },
-
     change({ name, value }) {
       this.form[name] = value
+    },
+    select(value) {
+      this.form = {
+        ...this.form,
+        latlong: `${value.lat},${value.long},`,
+        country: value.name,
+      }
+    },
+    async handleSave() {
+      await this.$store.dispatch('register/register', this.form)
     },
   },
 }
