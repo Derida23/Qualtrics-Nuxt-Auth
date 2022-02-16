@@ -6,7 +6,8 @@ export const state = () => ({
   show_alert: false,
   loading: false,
   status: '',
-  message: '',
+  alert_title: '',
+  alert_message: '',
 })
 
 export const mutations = {
@@ -17,15 +18,29 @@ export const plugins = [EasyAccess()]
 
 export const actions = {
   // eslint-disable-next-line no-empty-pattern
-  register({}, body) {
+  register({ dispatch }, body) {
     return this.$axios
       .post('api/privy/register', body)
-      .then((res) => {
-        console.log(res)
-        return true
+      .then((response) => {
+        dispatch('set/loading', false)
+        dispatch('set/show_alert', true)
+        dispatch('set/status', 'success')
+        dispatch('set/alert_title', `Create Account Success`)
+        dispatch('set/alert_message', response.data.message)
       })
-      .catch((e) => {
-        console.error(e)
+      .catch((err) => {
+        dispatch('set/loading', false)
+        dispatch('set/show_alert', true)
+        dispatch('set/status', 'error')
+        dispatch('set/alert_title', `Create Account Error`)
+        if (err.response.data.error) {
+          dispatch('set/alert_message', err.response.data.error.errors[0])
+        } else {
+          dispatch(
+            'set/alert_message',
+            'Something went wrong. Please try again later...'
+          )
+        }
 
         return false
       })

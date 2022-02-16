@@ -52,6 +52,7 @@
           @blur="$v.form.country.$touch()"
         />
       </div>
+
       <div>
         <v-btn
           type="submit"
@@ -85,7 +86,6 @@ export default {
     return {
       show: false,
       loadSave: false,
-      alert: false,
       form: {
         phone: '',
         password: '',
@@ -121,8 +121,22 @@ export default {
     loading() {
       return this.$store.get('location/loading')
     },
-    // Error Field
 
+    // Notification
+    show_alert() {
+      return this.$store.get('register/show_alert')
+    },
+    status() {
+      return this.$store.get('register/status')
+    },
+    alert_title() {
+      return this.$store.get('register/alert_title')
+    },
+    alert_message() {
+      return this.$store.get('register/alert_message')
+    },
+
+    // Error Field
     errorPhone() {
       const errors = []
       if (!this.$v.form.phone.$dirty) return errors
@@ -149,6 +163,19 @@ export default {
       return errors
     },
   },
+  watch: {
+    show_alert(val) {
+      if (val) {
+        this.$notify({
+          type: this.status,
+          title: this.alert_title,
+          text: this.alert_message,
+        })
+
+        this.$store.set('register/show_alert', false)
+      }
+    },
+  },
   mounted() {
     this.getLocations()
   },
@@ -166,17 +193,11 @@ export default {
     async handleSave() {
       this.loadSave = true
       this.$v.$touch()
-      console.log(this.$v)
 
       if (!this.$v.$invalid) {
-        const res = await this.$store.dispatch('register/register', this.form)
+        await this.$store.dispatch('register/register', this.form)
 
-        if (res) {
-          console.log(res)
-        } else {
-          this.loadSave = false
-          this.alert = true
-        }
+        this.loadSave = false
       } else {
         this.loadSave = false
       }

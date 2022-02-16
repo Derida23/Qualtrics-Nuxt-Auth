@@ -1,18 +1,13 @@
 <template>
   <v-app dark>
+    <notifications position="top right" />
     <v-main>
-      <v-container>
-        <Nuxt />
-      </v-container>
+      <Nuxt />
     </v-main>
   </v-app>
 </template>
 
 <script>
-import Vue from 'vue'
-import Vuex from 'vuex'
-Vue.use(Vuex)
-
 export default {
   name: 'DefaultLayout',
   data() {
@@ -40,7 +35,6 @@ export default {
   },
 }
 </script>
-
 
 <style lang="scss">
 main {
