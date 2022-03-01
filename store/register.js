@@ -1,4 +1,5 @@
 import EasyAccess, { defaultMutations } from 'vuex-easy-access'
+import CryptoJS from 'crypto-js'
 
 export const state = () => ({
   locations: [],
@@ -27,6 +28,24 @@ export const actions = {
         dispatch('set/status', 'success')
         dispatch('set/alert_title', `Create Account Success`)
         dispatch('set/alert_message', response.data.message)
+
+        // Logic Basic
+        const cipher = CryptoJS.AES.encrypt(
+          body.phone.toString(),
+          CryptoJS.enc.Utf8.parse(this.$config.salt),
+          {
+            iv: CryptoJS.enc.Utf8.parse('The V Janji Mantab'), // parse the IV
+            padding: CryptoJS.pad.Pkcs7,
+            mode: CryptoJS.mode.CBC,
+          }
+        )
+
+        console.log(cipher.toString())
+        // this.$cookiz.set('otp_phone', encrypt, {
+        //   path: '/',
+        //   maxAge: 60 * 60 * 24 * 1,
+        // })
+        return true
       })
       .catch((err) => {
         dispatch('set/loading', false)

@@ -195,8 +195,8 @@ export default {
       this.$v.$touch()
 
       if (!this.$v.$invalid) {
-        await this.$store.dispatch('register/register', this.form)
-
+        const res = await this.$store.dispatch('register/register', this.form)
+        console.log(res)
         this.loadSave = false
       } else {
         this.loadSave = false

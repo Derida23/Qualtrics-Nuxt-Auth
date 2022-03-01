@@ -1,6 +1,6 @@
 <template>
   <v-app dark>
-    <notifications position="top right" />
+    <notifications position="bottom center" />
     <v-main>
       <Nuxt />
     </v-main>

@@ -43,6 +43,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    ['cookie-universal-nuxt', { alias: 'cookiz', parseJSON: false }],
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -60,6 +61,11 @@ export default {
       target: process.env.COUNTRY_URL,
       pathRewrite: { '^/api/location': '' },
     },
+  },
+
+  // Setup env
+  publicRuntimeConfig: {
+    salt: process.env.SALT,
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
