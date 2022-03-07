@@ -2,8 +2,6 @@ import EasyAccess, { defaultMutations } from 'vuex-easy-access'
 import CryptoJS from 'crypto-js'
 
 export const state = () => ({
-  locations: [],
-
   show_alert: false,
   loading: false,
   status: '',
@@ -19,9 +17,18 @@ export const plugins = [EasyAccess()]
 
 export const actions = {
   // eslint-disable-next-line no-empty-pattern
-  register({ dispatch }, body) {
+  otp({ dispatch }, body) {
+    const cookies = this.$cookiz.get('__OTP')
+
+    if (!cookies) return false
+
+    const bytes = CryptoJS.AES.decrypt(cookies, this.$config.salt)
+    const deconvert = JSON.parse(bytes.toString(CryptoJS.enc.Utf8))
+
+    const data = { user_id: deconvert.user_id, otp_code: body.otp_code }
+
     return this.$axios
-      .post('api/privy/register', body)
+      .post('api/privy/register/otp/match', data)
       .then((response) => {
         dispatch('set/loading', false)
         dispatch('set/show_alert', true)
@@ -29,25 +36,9 @@ export const actions = {
         dispatch('set/alert_title', `Create Account Success`)
         dispatch('set/alert_message', response.data.message)
 
-        const convert = {
-          user_id: response.data.data.user.id,
-          phone: body.phone,
-        }
+        console.log('DATA ->', data)
+        console.log('RESPONSE ->', response)
 
-        // Logic Crypto 10 Minutes
-        const date = new Date()
-        const minutes = 10
-        date.setTime(date.getTime() + minutes * 60 * 1000)
-
-        const cipher = CryptoJS.AES.encrypt(
-          JSON.stringify(convert),
-          this.$config.salt
-        ).toString()
-
-        this.$cookiz.set('__OTP', cipher.toString(), {
-          path: '/',
-          expires: date,
-        })
         return true
       })
       .catch((err) => {

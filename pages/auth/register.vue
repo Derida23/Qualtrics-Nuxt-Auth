@@ -75,10 +75,10 @@ import {
   required,
   minLength,
   maxLength,
-  helpers,
+  // helpers,
 } from 'vuelidate/lib/validators'
 
-const rulePhone = helpers.regex('rulePhone', /^(0|08|62)(\d{3,4}-?){2}\d{2,4}$/)
+// const rulePhone = helpers.regex('rulePhone', /^(0|08|62)(\d{3,4}-?){2}\d{2,4}$/)
 
 export default {
   name: 'RegisterPage',
@@ -101,7 +101,7 @@ export default {
       form: {
         phone: {
           required,
-          rulePhone,
+          // rulePhone,
           minLength: minLength(10),
           maxLength: maxLength(14),
         },
@@ -141,7 +141,7 @@ export default {
       const errors = []
       if (!this.$v.form.phone.$dirty) return errors
       !this.$v.form.phone.required && errors.push('Phone can not be empty')
-      !this.$v.form.phone.rulePhone && errors.push('Wrong phone number format')
+      // !this.$v.form.phone.rulePhone && errors.push('Wrong phone number format')
       !this.$v.form.phone.minLength && errors.push('Phone number min 10')
       !this.$v.form.phone.maxLength && errors.push('Phone number max 14')
       return errors
@@ -183,6 +183,7 @@ export default {
     async getLocations() {
       await this.$store.dispatch('location/getLocations')
     },
+
     handleSelect(value) {
       this.form = {
         ...this.form,
@@ -190,14 +191,18 @@ export default {
         country: value.name,
       }
     },
+
     async handleSave() {
       this.loadSave = true
       this.$v.$touch()
 
       if (!this.$v.$invalid) {
         const res = await this.$store.dispatch('register/register', this.form)
-        console.log(res)
         this.loadSave = false
+
+        if (res) {
+          this.$router.push('/auth/otp')
+        }
       } else {
         this.loadSave = false
       }
